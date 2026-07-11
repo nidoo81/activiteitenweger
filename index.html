@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Activiteitenweger Basalt</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0077c8">
+
+</head>
+
+<body>
+
+<h1>Activiteitenweger 3.0</h1>
+
+<div class="kaart">
+
+    <h2>Dagplanner</h2>
+
+<label>Starttijd</label>
+
+<select id="startUur" onchange="laadPlanning()"></select>
+
+<label>Eindtijd</label>
+
+<select id="eindUur" onchange="laadPlanning()"></select>
+
+    <p>
+        Datum:
+        <span id="plannerDatum"></span>
+    </p>
+
+ Dagtype:
+
+    <select id="dagtype" onchange="bepaalDoel()">
+
+        <option value="werkdag">Werkdag</option>
+
+        <option value="weekend">Weekend</option>
+
+        <option value="vrijedag">Vrije dag</option>
+
+        <option value="ziek">Ziek</option>
+
+    </select>
+
+    <p>
+
+        Streefscore:
+
+        <b id="doelVandaag">5</b>
+
+    </p>
+
+    <button onclick="vorigeDag()">
+        ◀ Vorige
+    </button>
+
+    <button onclick="vandaag()">
+        Vandaag
+    </button>
+
+    <button onclick="volgendeDag()">
+        Volgende ▶
+    </button>
+
+    <hr>
+
+    <div id="planner"></div>
+
+    <h3>
+        Dagscore:
+        <span id="score">0</span>
+    </h3>
+
+<p id="resultaat">
+
+    Nog niet beoordeeld.
+
+</p>
+
+<button onclick="slaDagOp()">
+
+        Dag opslaan
+
+    </button>
+
+</div>
+
+<details id="activiteiten">
+
+<summary><b>📋 Activiteiten</b></summary>
+
+<div class="kaart">
+
+<h2>Activiteiten</h2>
+
+<input
+id="naam"
+type="text"
+placeholder="Naam activiteit">
+
+<select id="categorie">
+
+<option>Werk</option>
+<option>Huishouden</option>
+<option>Sport</option>
+<option>Ontspanning</option>
+<option>Sociaal</option>
+<option>Overig</option>
+
+</select>
+
+<input
+id="waarde"
+type="number"
+placeholder="Waarde">
+
+<button onclick="toevoegen()">
+
+Toevoegen
+
+</button>
+
+<hr>
+
+<input
+id="zoeken"
+type="text"
+placeholder="Zoeken...">
+
+<label>
+
+    <input
+        type="checkbox"
+        id="alleenFavorieten"
+        onchange="tekenLijst()">
+
+    Alleen favorieten
+
+</label>
+
+<br><br>
+
+<select
+id="sorteren">
+
+<option value="az">Naam A-Z</option>
+
+<option value="za">Naam Z-A</option>
+
+<option value="laaghoog">
+
+Waarde laag-hoog
+
+</option>
+
+<option value="hooglaag">
+
+Waarde hoog-laag
+
+</option>
+
+</select>
+
+<details>
+
+    <summary>📋 Activiteiten bekijken</summary>
+
+    <div id="lijst">
+
+        Nog geen activiteiten.
+
+    </div>
+
+</details>
+
+</div>
+
+</div>
+
+</details>
+
+<details>
+
+<summary><b>📆 Weekplanner</b></summary>
+
+<div class="kaart">
+
+    <h2>Weekplanner</h2>
+
+    <button onclick="toonWeekPlanner()">
+
+        Weekoverzicht tonen
+
+    </button>
+
+    <div id="weekplanner">
+
+    </div>
+
+</div>
+
+</details>
+
+<details>
+
+<summary><b>📆 Maandoverzicht</b></summary>
+
+<div class="kaart">
+
+    <h2>Maandoverzicht</h2>
+
+<h3 id="maandTitel"></h3>
+
+<div id="maandStatistieken">
+
+    Nog geen statistieken.
+
+</div>
+
+<br>
+
+    <button onclick="vorigeMaand()">
+        ◀ Vorige maand
+    </button>
+
+    <button onclick="toonMaandPlanner()">
+        Maandoverzicht tonen
+    </button>
+
+    <button onclick="volgendeMaand()">
+        Volgende maand ▶
+    </button>
+
+    <br><br>
+
+    <div id="maandplanner"></div>
+
+</div>
+
+</details>
+
+<details id="kalenderKaart">
+
+<summary><b>🗓️ Kalender</b></summary>
+
+
+<div class="kaart">
+
+    <h2>Kalender</h2>
+
+<h3 id="kalenderTitel"></h3>
+
+  <button onclick="tekenKalender()">
+    Kalender tonen
+</button>
+
+    <br><br>
+
+    <div id="kalender"></div>
+
+</div>
+
+</details>
+
+<details>
+
+<summary><b>📅 Jaaroverzicht</b></summary>
+
+<div class="kaart">
+
+    <h2>Jaaroverzicht</h2>
+
+<div id="jaarStatistieken">
+
+    Nog geen statistieken.
+
+</div>
+
+<br>
+
+    <button onclick="toonJaarOverzicht()">
+        Jaaroverzicht tonen
+    </button>
+
+    <br><br>
+
+    <div id="jaaroverzicht">
+
+        Nog geen gegevens.
+
+    </div>
+
+</div>
+
+</details>
+
+<details>
+
+<summary><b>📅 Geschiedenis</b></summary>
+
+<div class="kaart">
+
+    <h2>Geschiedenis</h2>
+
+
+    <button onclick="wisGeschiedenis()">
+
+        Geschiedenis wissen
+
+    </button>
+
+    <hr>
+
+    <div id="geschiedenis">
+
+        Nog geen opgeslagen dagen.
+
+    </div>
+
+</div>
+
+</details>
+
+<details id="dashboardKaart" open>
+
+<summary><b>📊 Dashboard</b></summary>
+
+<div class="kaart">
+
+    <h2>Dashboard</h2>
+
+    <div id="dashboard">
+
+        Nog geen gegevens.
+
+    </div>
+
+</div>
+
+</details>
+
+<details>
+
+<summary><b>🎯 Persoonlijk advies</b></summary>
+
+<div class="kaart">
+
+    <h2>Persoonlijke inzichten</h2>
+
+    <div id="inzichten">
+
+        Nog geen inzichten.
+
+    </div>
+
+</div>
+
+</details>
+
+<details>
+
+<summary><b>💡 Inzichten</b></summary>
+
+<div class="kaart">
+
+    <h2>💡 Slim advies</h2>
+
+    <div id="advies">
+
+        Nog geen advies.
+
+    </div>
+
+</div>
+
+</details>
+
+<details>
+
+<summary><b>📈 Grafieken</b></summary>
+
+<div class="kaart">
+
+    <h2>Grafiek</h2>
+
+<select id="grafiekType" onchange="tekenGrafiek()">
+
+    <option value="line">Lijngrafiek</option>
+
+    <option value="bar">Staafdiagram</option>
+
+</select>
+
+<select id="grafiekFilter" onchange="tekenGrafiek()">
+
+    <option value="alles">Alle gegevens</option>
+
+    <option value="7">Laatste 7 dagen</option>
+
+    <option value="30">Laatste 30 dagen</option>
+
+    <option value="365">Laatste jaar</option>
+
+</select>
+
+<br><br>
+
+<br><br>
+
+    <button onclick="downloadGrafiek()">
+
+    Grafiek opslaan als PNG
+
+</button>
+
+<button onclick="maakPDF()">
+
+    PDF-rapport maken
+
+</button>
+
+<br><br>
+
+<br><br>
+
+<canvas id="grafiek"></canvas>
+
+</div>
+
+</details>
+
+<details id="backupKaart">
+
+<summary><b>💾 Back-up & Herstellen</b></summary>
+
+<div class="kaart">
+
+    <h2>Back-up</h2>
+
+    <button onclick="exporteerGegevens()">
+
+        Gegevens exporteren
+
+    </button>
+
+    <br><br>
+
+    <input
+        type="file"
+        id="importBestand">
+
+    <button onclick="importeerGegevens()">
+
+        Gegevens importeren
+
+    </button>
+
+<br><br>
+
+<button onclick="resetAlles()">
+
+    🗑 Alles wissen
+
+</button>
+
+</div>
+
+</div>
+
+</details>
+
+<nav id="bottomNav">
+
+<button onclick="window.scrollTo({top:0,behavior:'smooth'})">
+🏠<br>Planner
+</button>
+
+<button onclick="document.getElementById('activiteiten').scrollIntoView({behavior:'smooth'})">
+📋<br>Activiteiten
+</button>
+
+<button onclick="document.getElementById('dashboardKaart').scrollIntoView({behavior:'smooth'})">
+📊<br>Dashboard
+</button>
+
+<button onclick="document.getElementById('kalenderKaart').scrollIntoView({behavior:'smooth'})">
+🗓<br>Kalender
+</button>
+
+<button onclick="document.getElementById('backupKaart').scrollIntoView({behavior:'smooth'})">
+⚙<br>Meer
+</button>
+
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="script-v3.js"></script>
+
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js");
+    });
+}
+</script>
+
+<details id="streefdoelenKaart">
+
+    <summary><b>🎯 Streefdoelen</b></summary>
+
+<div class="kaart">
+
+<h2>Streefdoelen</h2>
+
+<label>Werkdag</label>
+<input id="doelWerkdag" type="number">
+
+<label>Weekend</label>
+<input id="doelWeekend" type="number">
+
+<label>Vrije dag</label>
+<input id="doelVrijedag" type="number">
+
+<label>Ziek</label>
+<input id="doelZiek" type="number">
+
+<br><br>
+
+<button onclick="slaDoelenOp()">
+
+    Streefdoelen opslaan
+
+</button>
+
+</div>
+
+</details>
+
+</body>
+</html>
+
+
+   
