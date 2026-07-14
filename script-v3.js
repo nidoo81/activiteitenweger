@@ -704,17 +704,15 @@ function slaDoelenOp(){
         Number(document.getElementById("doelZiek").value);
 
     localStorage.setItem(
-
         "doelen",
-
         JSON.stringify(doelen)
-
     );
 
+    laadDoelen();
     bepaalDoel();
+    laadPlanning();
 
     alert("Streefdoelen opgeslagen.");
-
 }
 
 function slaDagOp(){
@@ -2513,7 +2511,7 @@ if(datumTekst === vandaag){
 }
 
 html += `
-<<td
+<td
 onclick="openDag('${datumTekst}')"
 style="
     background:${kleur};
@@ -2604,7 +2602,7 @@ function toonMiddag(){
 function toonAvond(){
 
     document.getElementById("startUur").value = 18;
-    document.getElementById("eindUur").value = 24;
+    document.getElementById("eindUur").value = 23;
 
     laadPlanning();
 
@@ -2623,12 +2621,14 @@ tekenLijst();
 vulTijden();
 tekenPlanner();
 toonDatum();
+
+laadDoelen();
 laadPlanning();
+bepaalDoel();
+
 tekenGeschiedenis();
 tekenDashboard();
 tekenGrafiek();
-laadDoelen();
-bepaalDoel();
 toonMaandPlanner();
 tekenKalender();
 toonJaarOverzicht();
