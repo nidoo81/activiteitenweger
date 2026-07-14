@@ -615,6 +615,14 @@ function laadPlanning(){
 
     );
 
+let dagtype = localStorage.getItem(
+    "dagtype_" + datumSleutel()
+);
+
+if(dagtype){
+    document.getElementById("dagtype").value = dagtype;
+}
+
     tekenPlanner();
 
     document
@@ -651,7 +659,14 @@ function laadPlanning(){
 
 function bepaalDoel(){
 
-    let dagtype =
+let dagtype = document.getElementById("dagtype").value;
+
+localStorage.setItem(
+    "dagtype_" + datumSleutel(),
+    dagtype
+);    
+
+let dagtype =
 
         document.getElementById("dagtype").value;
 
@@ -2557,6 +2572,51 @@ function openDag(datum){
     huidigeDatum = new Date(datum);
 
     toonDatum();
+
+    laadPlanning();
+
+}
+
+function toonWerkdag(){
+
+    document.getElementById("startUur").value = 8;
+    document.getElementById("eindUur").value = 18;
+
+    laadPlanning();
+
+}
+
+function toonOchtend(){
+
+    document.getElementById("startUur").value = 6;
+    document.getElementById("eindUur").value = 12;
+
+    laadPlanning();
+
+}
+
+function toonMiddag(){
+
+    document.getElementById("startUur").value = 12;
+    document.getElementById("eindUur").value = 18;
+
+    laadPlanning();
+
+}
+
+function toonAvond(){
+
+    document.getElementById("startUur").value = 18;
+    document.getElementById("eindUur").value = 24;
+
+    laadPlanning();
+
+}
+
+function toonAlles(){
+
+    document.getElementById("startUur").value = 0;
+    document.getElementById("eindUur").value = 24;
 
     laadPlanning();
 
