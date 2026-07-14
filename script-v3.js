@@ -653,25 +653,22 @@ if(dagtype){
 
     });
 
+bepaalDoel();
+
     berekenPlanner();
 
 }
 
 function bepaalDoel(){
 
-let dagtype = document.getElementById("dagtype").value;
+    let dagtype = document.getElementById("dagtype").value;
 
-localStorage.setItem(
-    "dagtype_" + datumSleutel(),
-    dagtype
-);    
-
-let dagtype =
-
-        document.getElementById("dagtype").value;
+    localStorage.setItem(
+        "dagtype_" + datumSleutel(),
+        dagtype
+    );
 
     document.getElementById("doelVandaag").innerText =
-
         doelen[dagtype];
 
 }
