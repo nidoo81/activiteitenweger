@@ -554,7 +554,17 @@ function toonDatum(){
 
 function datumSleutel(){
 
-    return huidigeDatum.toISOString().split("T")[0];
+    let jaar = huidigeDatum.getFullYear();
+
+    let maand = String(
+        huidigeDatum.getMonth() + 1
+    ).padStart(2,"0");
+
+    let dag = String(
+        huidigeDatum.getDate()
+    ).padStart(2,"0");
+
+    return jaar + "-" + maand + "-" + dag;
 
 }
 
@@ -606,54 +616,47 @@ planningGewijzigd = true;
 function laadPlanning(){
 
     planning = JSON.parse(
-
         localStorage.getItem(
-
             "planning_" + datumSleutel()
-
         ) || "{}"
-
     );
 
-let dagtype = localStorage.getItem(
-    "dagtype_" + datumSleutel()
-);
-
-if(dagtype){
-    document.getElementById("dagtype").value = dagtype;
-}
-
     tekenPlanner();
+
+    let opgeslagenDagtype =
+        localStorage.getItem(
+            "dagtype_" + datumSleutel()
+        );
+
+    document.getElementById("dagtype").value =
+        opgeslagenDagtype || "werkdag";
+
+    bepaalDoel();
 
     document
     .querySelectorAll("#planner table tr")
     .forEach((rij,index)=>{
 
-        if(index === 0){
-            return;
-        }
+        if(index===0) return;
 
         let tijd = rij.cells[0].innerText;
 
         let select = rij.querySelector("select");
         let input = rij.querySelector("input");
 
-        select.value = "";
-        input.value = "";
-
         if(planning[tijd]){
 
-            select.value =
-                planning[tijd].activiteit || "";
+            select.value = planning[tijd].activiteit || "";
+            input.value = planning[tijd].notitie || "";
 
-            input.value =
-                planning[tijd].notitie || "";
+        }else{
+
+            select.value = "";
+            input.value = "";
 
         }
 
     });
-
-bepaalDoel();
 
     berekenPlanner();
 
@@ -661,7 +664,8 @@ bepaalDoel();
 
 function bepaalDoel(){
 
-    let dagtype = document.getElementById("dagtype").value;
+    let dagtype =
+        document.getElementById("dagtype").value;
 
     localStorage.setItem(
         "dagtype_" + datumSleutel(),
