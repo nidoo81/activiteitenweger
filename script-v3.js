@@ -570,34 +570,31 @@ function datumSleutel(){
 
 function bewaarPlanning(){
 
-planningGewijzigd = true;
+    planningGewijzigd = true;
 
-    planning = {};
+    let gegevens = {
+
+        dagtype: document.getElementById("dagtype").value,
+
+        tijden: {}
+
+    };
 
     document
     .querySelectorAll("#planner table tr")
     .forEach((rij,index)=>{
 
-        if(index===0){
-            return;
-        }
+        if(index===0) return;
 
-        let tijd =
-            rij.cells[0].innerText;
+        let tijd = rij.cells[0].innerText;
 
-        let select =
-            rij.querySelector("select");
+        gegevens.tijden[tijd]={
 
-        let input =
-            rij.querySelector("input");
-
-        planning[tijd] = {
-
-           activiteit:
-    select.value,
+            activiteit:
+                rij.querySelector("select").value,
 
             notitie:
-                input.value
+                rij.querySelector("input").value
 
         };
 
@@ -607,7 +604,7 @@ planningGewijzigd = true;
 
         "planning_" + datumSleutel(),
 
-        JSON.stringify(planning)
+        JSON.stringify(gegevens)
 
     );
 
@@ -615,23 +612,31 @@ planningGewijzigd = true;
 
 function laadPlanning(){
 
-    planning = JSON.parse(
+    let gegevens = JSON.parse(
+
         localStorage.getItem(
+
             "planning_" + datumSleutel()
+
         ) || "{}"
+
     );
+
+    planning = gegevens.tijden || {};
 
     tekenPlanner();
 
-    let opgeslagenDagtype =
-        localStorage.getItem(
-            "dagtype_" + datumSleutel()
-        );
+    if(gegevens.dagtype){
 
-    document.getElementById("dagtype").value =
-        opgeslagenDagtype || "werkdag";
+        document.getElementById("dagtype").value =
+            gegevens.dagtype;
 
-    bepaalDoel();
+    }else{
+
+        document.getElementById("dagtype").value =
+            "werkdag";
+
+    }
 
     document
     .querySelectorAll("#planner table tr")
@@ -642,21 +647,26 @@ function laadPlanning(){
         let tijd = rij.cells[0].innerText;
 
         let select = rij.querySelector("select");
+
         let input = rij.querySelector("input");
+
+        select.value="";
+
+        input.value="";
 
         if(planning[tijd]){
 
-            select.value = planning[tijd].activiteit || "";
-            input.value = planning[tijd].notitie || "";
+            select.value =
+                planning[tijd].activiteit || "";
 
-        }else{
-
-            select.value = "";
-            input.value = "";
+            input.value =
+                planning[tijd].notitie || "";
 
         }
 
     });
+
+    bepaalDoel();
 
     berekenPlanner();
 
@@ -667,13 +677,10 @@ function bepaalDoel(){
     let dagtype =
         document.getElementById("dagtype").value;
 
-    localStorage.setItem(
-        "dagtype_" + datumSleutel(),
-        dagtype
-    );
-
     document.getElementById("doelVandaag").innerText =
         doelen[dagtype];
+
+    bewaarPlanning();
 
 }
 
@@ -751,7 +758,7 @@ if(!heeftActiviteit){
 
     datum: datumSleutel(),
 
-   score: score,
+    score: score,
 
     dagtype:
         document.getElementById("dagtype").value,
