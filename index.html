@@ -70,7 +70,21 @@
 
     <hr>
 
-    <div id="planner"></div>
+<div style="margin-bottom:10px;">
+
+<button onclick="toonWerkdag()">Werkdag</button>
+
+<button onclick="toonOchtend()">Ochtend</button>
+
+<button onclick="toonMiddag()">Middag</button>
+
+<button onclick="toonAvond()">Avond</button>
+
+<button onclick="toonAlles()">Alles</button>
+
+</div>
+
+<div id="planner"></div>
 
     <h3>
         Dagscore:
@@ -499,20 +513,6 @@ Waarde hoog-laag
 
 </nav>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<script src="script-v3.js"></script>
-
-<script>
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker.register("service-worker.js");
-    });
-}
-</script>
-
 <details id="streefdoelenKaart">
 
     <summary><b>🎯 Streefdoelen</b></summary>
@@ -544,6 +544,21 @@ if ("serviceWorker" in navigator) {
 </div>
 
 </details>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="script-v3.js"></script>
+
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js");
+    });
+}
+</script>
 
 </body>
 </html>
