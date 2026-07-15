@@ -686,17 +686,15 @@ function bepaalDoel(){
 
 function laadDoelen(){
 
-    document.getElementById("doelWerkdag").value =
-        doelen.werkdag;
+    console.log("Werkdag:", document.getElementById("doelWerkdag"));
+    console.log("Weekend:", document.getElementById("doelWeekend"));
+    console.log("Vrijedag:", document.getElementById("doelVrijedag"));
+    console.log("Ziek:", document.getElementById("doelZiek"));
 
-    document.getElementById("doelWeekend").value =
-        doelen.weekend;
-
-    document.getElementById("doelVrijedag").value =
-        doelen.vrijedag;
-
-    document.getElementById("doelZiek").value =
-        doelen.ziek;
+    document.getElementById("doelWerkdag").value = doelen.werkdag;
+    document.getElementById("doelWeekend").value = doelen.weekend;
+    document.getElementById("doelVrijedag").value = doelen.vrijedag;
+    document.getElementById("doelZiek").value = doelen.ziek;
 
 }
 
