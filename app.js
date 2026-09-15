@@ -2787,6 +2787,8 @@ async function loginUser() {
     ).style.display = "block";
 }
 
+window.loginUser = loginUser;
+
 function showPage(page) {
 
     const header =
