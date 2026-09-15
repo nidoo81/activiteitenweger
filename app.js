@@ -289,6 +289,8 @@ function saveData() {
         )
     );
 
+    saveUserData();
+
 }
 
 
@@ -2746,6 +2748,40 @@ function updateSelectedDayTypeDisplay() {
 /* =====================================
    PAGINA NAVIGATIE
 ===================================== */
+
+async function saveUserData() {
+
+    const {
+        data: { user }
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+        return;
+    }
+
+    const dateKey = getDateKey();
+
+    const dayData = getTodayData();
+
+    const { error } = await supabaseClient
+        .from("daily_data")
+        .upsert({
+            user_id: user.id,
+            data: {
+                date: dateKey,
+                ...dayData
+            }
+        }, {
+            onConflict: "user_id"
+        });
+
+    if (error) {
+        console.error(
+            "Opslaan naar Supabase mislukt:",
+            error
+        );
+    }
+}
 
 async function loginUser() {
 
