@@ -11,7 +11,40 @@
 
 <body>
 
-<main class="app">
+<div id="login-screen">
+
+    <div class="login-box">
+
+        <h1>Activiteitenweger</h1>
+
+        <p>Log in om je activiteiten bij te houden.</p>
+
+        <input
+            type="email"
+            id="login-email"
+            placeholder="E-mailadres"
+            autocomplete="email"
+        >
+
+        <input
+            type="password"
+            id="login-password"
+            placeholder="Wachtwoord"
+            autocomplete="current-password"
+        >
+
+        <button onclick="loginUser()">
+            Inloggen
+        </button>
+
+        <p id="login-message"></p>
+
+    </div>
+
+</div>
+
+
+<main class="app" style="display: none;">
 
     <header class="header">
 

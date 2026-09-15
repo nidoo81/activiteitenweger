@@ -1,5 +1,5 @@
 const SUPABASE_URL = "https://xciwddigzqpchnewrhsr.supabase.co/rest/v1/";
-const SUPABASE_KEY = "sb_publishable_IbRastHBW1Atx0WBPCpGqA_8CatBnuQ";
+const SUPABASE_KEY = "sb_publishable_IbRastHBW1Atx0WBPCpGqA_8CatBnuQ"function showPagefunction showPage;
 
 const supabaseClient =
     window.supabase.createClient(
@@ -2746,6 +2746,46 @@ function updateSelectedDayTypeDisplay() {
 /* =====================================
    PAGINA NAVIGATIE
 ===================================== */
+
+async function loginUser() {
+
+    const email =
+        document.getElementById("login-email").value.trim();
+
+    const password =
+        document.getElementById("login-password").value;
+
+    const message =
+        document.getElementById("login-message");
+
+    if (!email || !password) {
+        message.textContent =
+            "Vul je e-mailadres en wachtwoord in.";
+        return;
+    }
+
+    message.textContent = "Inloggen...";
+
+    const { error } =
+        await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+    if (error) {
+        message.textContent =
+            "Inloggen mislukt: " + error.message;
+        return;
+    }
+
+    document.getElementById(
+        "login-screen"
+    ).style.display = "none";
+
+    document.querySelector(
+        ".app"
+    ).style.display = "block";
+}
 
 function showPage(page) {
 
