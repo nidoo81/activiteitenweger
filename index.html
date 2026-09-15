@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Activiteitenweger</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<main class="app">
+
+    <header class="header">
+
+        <div>
+            <p class="greeting">Goedemiddag</p>
+            <h1>Activiteitenweger</h1>
+            <p class="date" id="today-date"></p>
+        </div>
+
+        <button class="settings-button" onclick="openSettings()">⚙️</button>
+
+    </header>
+
+
+    <!-- SCORE -->
+
+ <!-- DAGTYPE -->
+
+<div class="day-type-container">
+
+    <button
+        class="day-type-button"
+        onclick="toggleDayTypeMenu()"
+    >
+
+        <span id="day-type-icon">🧑‍💼</span>
+
+        <span id="day-type-name">
+            Werkdag
+        </span>
+
+        <span class="day-type-arrow">
+            ▾
+        </span>
+
+    </button>
+
+
+    <div
+        id="day-type-menu"
+        class="day-type-menu"
+    >
+
+        <button onclick="selectDayType('workday')">
+            🧑‍💼
+            <span>Werkdag</span>
+        </button>
+
+        <button onclick="selectDayType('freeDay')">
+            🏖️
+            <span>Vrije dag</span>
+        </button>
+
+        <button onclick="selectDayType('weekend')">
+            📅
+            <span>Weekend</span>
+        </button>
+
+    </div>
+
+</div>   
+
+<section class="score-card">
+
+        <div class="score-circle" id="score-circle">
+
+            <div>
+                <strong id="current-score">0</strong>
+                <span id="goal-small">/ 100</span>
+            </div>
+
+        </div>
+
+
+        <div class="score-info">
+
+            <p class="label">Streefdoel vandaag</p>
+
+            <h2 id="goal">100 punten</h2>
+
+            <p
+    class="remaining"
+    id="remaining-text"
+>
+    Nog <strong id="remaining">30</strong> punten beschikbaar
+</p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ACTIVITEITEN -->
+
+    <section class="activities-section">
+
+        <div class="section-header">
+
+            <div>
+                <p class="label">Vandaag</p>
+                <h2>Activiteiten</h2>
+            </div>
+
+            <button class="add-button" onclick="openActivityModal()">
+                +
+            </button>
+
+        </div>
+
+
+        <div id="activities"></div>
+
+    </section>
+
+<!-- GESELECTEERDE DAG -->
+
+<section
+    id="day-page"
+    class="app-page"
+    style="display:none;"
+>
+
+    <button
+        class="back-button"
+        onclick="showPage('overview')"
+    >
+        ← Terug naar overzicht
+    </button>
+
+
+    <div class="page-header">
+
+        <p class="label">
+            Dagoverzicht
+        </p>
+
+        <h2 id="selected-day-title">
+            Vandaag
+        </h2>
+
+    </div>
+
+
+    <div class="selected-day-type">
+
+        <button
+            class="day-type-button"
+            onclick="toggleSelectedDayTypeMenu()"
+        >
+
+            <span id="selected-day-type-icon">
+                🧑‍💼
+            </span>
+
+            <span id="selected-day-type-name">
+                Werkdag
+            </span>
+
+            <span>▾</span>
+
+        </button>
+
+
+        <div
+            id="selected-day-type-menu"
+            class="day-type-menu"
+        >
+
+            <button
+                onclick="selectSelectedDayType('workday')"
+            >
+                🧑‍💼 Werkdag
+            </button>
+
+            <button
+                onclick="selectSelectedDayType('freeDay')"
+            >
+                🏖️ Vrije dag
+            </button>
+
+            <button
+                onclick="selectSelectedDayType('weekend')"
+            >
+                📅 Weekend
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="selected-score-card">
+
+        <div class="selected-score">
+
+            <strong id="selected-day-score">
+                0
+            </strong>
+
+            <span>
+                / <span id="selected-day-goal">
+                    65
+                </span>
+                punten
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <h3 class="section-title">
+        Activiteiten
+    </h3>
+
+
+    <div
+        id="selected-day-activities"
+    ></div>
+
+
+    <button
+        class="primary-button"
+        onclick="openActivityModalForSelectedDay()"
+    >
+        + Activiteit toevoegen
+    </button>
+
+</section>
+
+   <!-- NAVIGATIE -->
+
+<!-- OVERZICHT PAGINA -->
+
+<section
+    id="overview-page"
+    class="app-page"
+    style="display:none;"
+>
+
+    <div class="page-header">
+
+    <p class="label">Overzicht</p>
+
+    <div class="week-navigation">
+
+    <button
+        class="week-arrow"
+        onclick="changeOverviewPeriod(-1)"
+    >
+        ‹
+    </button>
+
+    <div>
+        <h2 id="week-title">Deze week</h2>
+
+
+        <p class="page-description">
+            Bekijk je activiteiten en scores per dag.
+        </p>
+    </div>
+
+    <button
+        class="today-button"
+        onclick="goToCurrentOverviewPeriod()"
+    >
+        Vandaag
+    </button>
+
+    <button
+        class="week-arrow"
+        onclick="changeOverviewPeriod(1)"
+    >
+        ›
+    </button>
+
+</div>
+
+        <p class="page-description">
+            Bekijk je activiteiten en scores per dag.
+        </p>
+
+    </div>
+
+<div class="calendar-button-container">
+
+    <button
+        class="calendar-button"
+        onclick="toggleCalendar()"
+    >
+        📅 Kies een datum
+    </button>
+
+</div>
+
+<div class="view-switch">
+
+    <button
+        class="view-switch-button active"
+        id="week-view-button"
+        onclick="setOverviewView('week')"
+    >
+        Week
+    </button>
+
+    <button
+        class="view-switch-button"
+        id="month-view-button"
+        onclick="setOverviewView('month')"
+    >
+        Maand
+    </button>
+
+</div>
+
+<div
+    id="calendar-panel"
+    class="calendar-panel"
+>
+
+    <label for="calendar-date">
+        Ga naar datum
+    </label>
+
+    <input
+        type="date"
+        id="calendar-date"
+        onchange="selectCalendarDate()"
+    >
+
+</div>
+
+    <div class="week-summary">
+
+        <div>
+            <span>Gemiddeld</span>
+            <strong id="week-average">0</strong>
+            <small>punten per dag</small>
+        </div>
+
+        <div>
+            <span>Dagen binnen doel</span>
+            <strong id="week-good-days">0</strong>
+            <small id="week-good-days-label">van 7 dagen</small>
+        </div>
+
+    </div>
+
+
+    <div class="week-list" id="week-list"></div>
+
+<div class="month-legend">
+
+    <span>🟢 Onder 70%</span>
+
+    <span>🟠 70–99%</span>
+
+    <span>🔴 Doel behaald</span>
+
+    <span>⚪ Geen activiteit</span>
+
+</div>
+
+</section>
+
+<!-- DOELEN PAGINA -->
+
+<section
+    id="goals-page"
+    class="app-page"
+    style="display:none;"
+>
+
+    <div class="page-header">
+
+        <p class="label">Instellingen</p>
+
+        <h2>Streefdoelen</h2>
+
+        <p class="page-description">
+            Stel per type dag je maximale aantal punten in.
+        </p>
+
+    </div>
+
+
+    <div class="goal-setting-card">
+
+        <div class="goal-icon">
+            🧑‍💼
+        </div>
+
+        <div class="goal-setting-info">
+
+            <strong>Werkdag</strong>
+
+            <span>
+                Maandag t/m vrijdag
+            </span>
+
+        </div>
+
+        <div class="goal-input">
+
+            <input
+                type="number"
+                id="workday-goal"
+                min="1"
+            >
+
+            <span>punten</span>
+
+        </div>
+
+    </div>
+
+
+    <div class="goal-setting-card">
+
+        <div class="goal-icon">
+            🏖️
+        </div>
+
+        <div class="goal-setting-info">
+
+            <strong>Vrije dag</strong>
+
+            <span>
+                Een vrije dag doordeweeks
+            </span>
+
+        </div>
+
+        <div class="goal-input">
+
+            <input
+                type="number"
+                id="free-day-goal"
+                min="1"
+            >
+
+            <span>punten</span>
+
+        </div>
+
+    </div>
+
+
+    <div class="goal-setting-card">
+
+        <div class="goal-icon">
+            📅
+        </div>
+
+        <div class="goal-setting-info">
+
+            <strong>Weekend</strong>
+
+            <span>
+                Zaterdag en zondag
+            </span>
+
+        </div>
+
+        <div class="goal-input">
+
+            <input
+                type="number"
+                id="weekend-goal"
+                min="1"
+            >
+
+            <span>punten</span>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="primary-button"
+        onclick="saveGoals()"
+    >
+        Streefdoelen opslaan
+    </button>
+
+</section>
+
+<nav class="navigation">
+
+    <button
+        class="nav-item active"
+        onclick="showPage('today')"
+    >
+        <span>🏠</span>
+        <small>Vandaag</small>
+    </button>
+
+    <button
+        class="nav-item"
+        onclick="showPage('overview')"
+    >
+        <span>📊</span>
+        <small>Overzicht</small>
+    </button>
+
+    <button
+        class="nav-item"
+        onclick="showPage('goals')"
+    >
+        <span>🎯</span>
+        <small>Doelen</small>
+    </button>
+
+    <button
+    class="nav-item"
+    onclick="showPage('activities')"
+>
+    <span>⚙️</span>
+    <small>Activiteiten</small>
+</button>
+
+</nav>
+
+<!-- ACTIVITEITEN BEHEREN -->
+
+<section
+    id="activities-page"
+    class="app-page"
+    style="display:none;"
+>
+
+    <div class="page-header">
+
+        <p class="label">Beheren</p>
+
+        <h2>Activiteiten</h2>
+
+        <p class="page-description">
+            Beheer de activiteiten en hun score.
+        </p>
+
+    </div>
+
+
+    <div id="activity-definitions"></div>
+
+
+    <button
+        class="primary-button"
+        onclick="openNewActivityModal()"
+    >
+        + Nieuwe activiteit
+    </button>
+
+</section>
+
+<!-- ACTIVITEIT TOEVOEGEN -->
+
+<div class="modal" id="activity-modal">
+
+    <div class="modal-content">
+
+        <button class="close-button" onclick="closeActivityModal()">
+            ×
+        </button>
+
+        <h2>Activiteit toevoegen</h2>
+
+        <p class="modal-description">
+            Kies een activiteit en geef aan hoe lang je deze hebt gedaan.
+        </p>
+
+
+        <label>Activiteit</label>
+
+        <select id="activity-select"></select>
+
+
+        <label>Duur</label>
+
+        <div class="duration-input">
+
+            <input
+                type="number"
+                id="duration"
+                value="30"
+                min="1"
+            >
+
+            <span>minuten</span>
+
+        </div>
+
+
+        <div class="calculated-score">
+
+            <span>Score</span>
+
+            <strong id="calculated-score">0 punten</strong>
+
+        </div>
+
+
+        <button class="primary-button" onclick="addActivity()">
+            Activiteit toevoegen
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ACTIVITEIT BEHEREN -->
+
+<div class="modal" id="manage-modal">
+
+    <div class="modal-content">
+
+        <button class="close-button" onclick="closeManageModal()">
+            ×
+        </button>
+
+        <h2 id="activity-modal-title">
+            Nieuwe activiteit
+        </h2>
+
+        <p class="modal-description">
+            Stel de naam, het pictogram en de score in.
+        </p>
+
+        <label>Naam</label>
+
+        <input
+            type="text"
+            id="definition-name"
+            placeholder="Bijvoorbeeld wandelen"
+        >
+
+        <label>Pictogram</label>
+
+        <input
+            type="text"
+            id="definition-icon"
+            placeholder="🚶"
+            maxlength="2"
+        >
+
+        <label>Score per 30 minuten</label>
+
+        <input
+            type="number"
+            id="definition-points"
+            min="0.1"
+            step="0.1"
+            placeholder="2"
+        >
+
+        <button
+            class="primary-button"
+            onclick="saveActivityDefinition()"
+        >
+            Opslaan
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
