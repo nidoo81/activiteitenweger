@@ -2765,21 +2765,64 @@ async function saveUserData() {
 
     const { error } = await supabaseClient
         .from("daily_data")
-        .upsert({
-            user_id: user.id,
-            data: {
-                date: dateKey,
-                ...dayData
-            }
-        }, {
-            onConflict: "user_id"
-        });
+       .upsert({
+    user_id: user.id,
+    date: dateKey,
+    data: {
+        date: dateKey,
+        ...dayData
+    }
+}, {
+    onConflict: "user_id,date"
+});
 
     if (error) {
         console.error(
             "Opslaan naar Supabase mislukt:",
             error
         );
+    }
+}
+
+async function loadUserData() {
+
+    const {
+        data: { user }
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+        .from("daily_data")
+        .select("*")
+        .eq("user_id", user.id);
+
+    if (error) {
+        console.error(
+            "Laden uit Supabase mislukt:",
+            error
+        );
+        return;
+    }
+
+    if (data && data.length > 0) {
+
+        data.forEach(row => {
+
+            if (row.date && row.data) {
+
+                dailyData[row.date] = {
+                    type: row.data.type,
+                    activities: row.data.activities || []
+                };
+
+            }
+
+        });
+
+        saveData();
     }
 }
 
@@ -2813,6 +2856,8 @@ async function loginUser() {
             "Inloggen mislukt: " + error.message;
         return;
     }
+
+await loadUserData();
 
     document.getElementById(
         "login-screen"
